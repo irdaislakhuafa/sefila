@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SEFILA - Deteksi Kanker Leher Rahim</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font-family: 'Inter', sans-serif; background: #F3F4F6; color: #1F2937; line-height: 1.6; }
+      .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+      .btn-primary, .btn-secondary { padding: 0.75rem 1.5rem; border: none; border-radius: 0.5rem; font-weight: 600; cursor: pointer; transition: all 0.3s; text-decoration: none; display: inline-block; color: white; }
+      .btn-primary { background: linear-gradient(135deg, #4F46E5, #6366F1); }
+      .btn-secondary { background: linear-gradient(135deg, #EC4899, #F472B6); }
+      .btn-primary:hover, .btn-secondary:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3); }
+      .card { background: white; border-radius: 1rem; padding: 1.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: all 0.3s; }
+      .card:hover { box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); }
+      nav { background: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); position: sticky; top: 0; z-index: 50; }
+      .gradient-primary { background: linear-gradient(135deg, #4F46E5, #6366F1); }
+      .gradient-secondary { background: linear-gradient(135deg, #EC4899, #F472B6); }
+      .input-field { width: 100%; padding: 0.75rem 1rem; border: 1px solid #D1D5DB; border-radius: 0.5rem; font-size: 1rem; }
+      .input-field:focus { outline: none; border-color: #4F46E5; box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

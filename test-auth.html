@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Test Registration</title>
+</head>
+
+<body>
+    <h1>Test SEFILA Registration</h1>
+
+    <h2>Register</h2>
+    <input type="text" id="name" placeholder="Name">
+    <input type="email" id="email" placeholder="Email">
+    <input type="date" id="birthDate" placeholder="Birth Date">
+    <button onclick="testRegister()">Register</button>
+    <div id="registerResult"></div>
+
+    <hr>
+
+    <h2>Login</h2>
+    <input type="email" id="loginEmail" placeholder="Email">
+    <input type="password" id="loginPassword" placeholder="Password (DDMMYYYY)">
+    <button onclick="testLogin()">Login</button>
+    <div id="loginResult"></div>
+
+    <script>
+        const API_URL = 'http://localhost:5000/api';
+
+        async function testRegister() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const birthDate = document.getElementById('birthDate').value;
+
+            try {
+                const response = await fetch(`${API_URL}/auth/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ name, email, birthDate })
+                });
+
+                const data = await response.json();
+                document.getElementById('registerResult').innerHTML =
+                    `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                console.log('Register response:', data);
+            } catch (error) {
+                document.getElementById('registerResult').innerHTML =
+                    `<pre style="color:red">Error: ${error.message}</pre>`;
+                console.error('Register error:', error);
+            }
+        }
+
+        async function testLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            try {
+                const response = await fetch(`${API_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+                document.getElementById('loginResult').innerHTML =
+                    `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                console.log('Login response:', data);
+            } catch (error) {
+                document.getElementById('loginResult').innerHTML =
+                    `<pre style="color:red">Error: ${error.message}</pre>`;
+                console.error('Login error:', error);
+            }
+        }
+    </script>
+</body>
+
+</html>

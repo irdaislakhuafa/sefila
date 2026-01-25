@@ -1,0 +1,139 @@
+// ===============================
+// Prisma Generator
+// ===============================
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ===============================
+// Database Connection
+// ===============================
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ===============================
+// ENUMS
+// ===============================
+enum Role {
+  PATIENT
+  ADMIN
+}
+
+enum StatusPendaftaran {
+  PENDING
+  ARRIVED
+  SCHEDULED
+  COMPLETED
+  CANCELLED
+}
+
+enum HasilIVA {
+  NEGATIF
+  POSITIF
+  CURIGA_KANKER
+}
+
+enum HasilDNAHPV {
+  NEGATIF
+  POSITIF
+  TIDAK_TERBACA
+}
+
+// ===============================
+// USER MODEL
+// ===============================
+model User {
+  id            Int             @id @default(autoincrement())
+  nik           String          @unique
+  email         String?
+  password      String
+  name          String
+  birthDate     DateTime?
+  phoneNumber   String?
+  role          Role            @default(PATIENT)
+
+  registrations Pendaftaran[]
+
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  @@map("users")
+}
+
+// ===============================
+// PENDAFTARAN MODEL
+// ===============================
+model Pendaftaran {
+  id                 Int                  @id @default(autoincrement())
+  userId             Int
+  user               User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Personal Information
+  nik                String               @unique
+  nama               String
+  tanggalLahir       DateTime
+  alamat             String               @db.Text
+  kelurahan          String
+  kecamatan          String?
+  noTelepon          String?
+
+  // Institution
+  instansi           String
+
+  // Self Assessment (4 syarat only)
+  tidakHaid          Boolean              @default(false)
+  tidakDouching      Boolean              @default(false)
+  tidakBerhubungan   Boolean              @default(false)
+  tidakHamil         Boolean              @default(false)
+
+  // Status & Schedule
+  status             StatusPendaftaran    @default(PENDING)
+  tanggalDaftar      DateTime             @default(now())
+  tanggalJadwal      DateTime?
+  tanggalPemeriksaan DateTime?
+
+  // Relation
+  hasilLab           HasilLab?
+
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+
+  @@index([userId])
+  @@index([kelurahan])
+  @@index([status])
+  @@map("pendaftaran")
+}
+
+// ===============================
+// HASIL LAB MODEL
+// ===============================
+model HasilLab {
+  id              Int         @id @default(autoincrement())
+  pendaftaranId   Int         @unique
+  pendaftaran     Pendaftaran @relation(fields: [pendaftaranId], references: [id], onDelete: Cascade)
+
+  // Hasil IVA
+  hasilIVA        HasilIVA    @default(NEGATIF)
+
+  // Hasil DNA HPV (sub-section)
+  jenisSpesimen       String?
+  noSpesimen          String?
+  tanggalPengambilan  DateTime?
+  
+  // Sub Type Results
+  subType16       HasilDNAHPV?
+  subType18       HasilDNAHPV?
+  subType52       HasilDNAHPV?
+  subTypeLainnya  HasilDNAHPV?
+
+  // Doctor Notes
+  catatanDokter   String?     @db.Text
+
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  @@index([pendaftaranId])
+  @@map("hasil_lab")
+}
