@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Login Mussa & View Lab Results</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .info-box {
+            background: #f5f7fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .info-box strong {
+            color: #333;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            font-weight: 600;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .result-box {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .success {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .error {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border-color: #ffc107;
+            color: #856404;
+        }
+
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 13px;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .status.positive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status.negative {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .lab-result-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .lab-header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .lab-header h3 {
+            color: #667eea;
+            font-size: 1.5em;
+            margin-bottom: 5px;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .result-item {
+            background: #f5f7fa;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .result-item label {
+            display: block;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .result-item .value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, .3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>🔬 Test Login Mussa & Lihat Hasil Lab</h1>
+            <p class="subtitle">Tes untuk memverifikasi bahwa pasien Mussa bisa login dan melihat hasil lab</p>
+
+            <!-- Section 1: Kredensial -->
+            <div class="section">
+                <h2>👤 Kredensial Login Mussa</h2>
+                <div class="info-box">
+                    <strong>NIK:</strong> 3374012505950002<br>
+                    <strong>Password:</strong> 25051995<br>
+                    <strong>Nama:</strong> Mussa<br>
+                    <strong>Tanggal Lahir:</strong> 25 Mei 1995
+                </div>
+            </div>
+
+            <!-- Section 2: Test Login -->
+            <div class="section">
+                <h2>🔐 Step 1: Login</h2>
+                <button id="loginBtn" onclick="testLogin()">Login sebagai Mussa</button>
+                <div id="loginResult"></div>
+            </div>
+
+            <!-- Section 3: Test Get Lab Results -->
+            <div class="section">
+                <h2>📊 Step 2: Ambil Hasil Lab</h2>
+                <button id="getResultsBtn" onclick="getLabResults()" disabled>Ambil Hasil Lab</button>
+                <div id="resultsOutput"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let authToken = null;
+
+        async function testLogin() {
+            const loginBtn = document.getElementById('loginBtn');
+            const resultDiv = document.getElementById('loginResult');
+
+            loginBtn.disabled = true;
+            loginBtn.innerHTML = '<span class="loading"></span> Logging in...';
+            resultDiv.innerHTML = '';
+
+            try {
+                const response = await fetch('http://localhost:3001/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        nik: '3374012505950002',
+                        password: '25051995'
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.token) {
+                    authToken = data.token;
+
+                    resultDiv.innerHTML = `
+                        <div class="result-box success">
+                            <h3>✅ Login Berhasil!</h3>
+                            <div class="result-grid">
+                                <div class="result-item">
+                                    <label>Nama</label>
+                                    <div class="value">${data.user.name}</div>
+                                </div>
+                                <div class="result-item">
+                                    <label>NIK</label>
+                                    <div class="value">${data.user.nik}</div>
+                                </div>
+                                <div class="result-item">
+                                    <label>Email</label>
+                                    <div class="value">${data.user.email}</div>
+                                </div>
+                                <div class="result-item">
+                                    <label>Role</label>
+                                    <div class="value">${data.user.role}</div>
+                                </div>
+                            </div>
+                            <details style="margin-top: 15px;">
+                                <summary style="cursor: pointer; color: #667eea; font-weight: 600;">🔍 Lihat Token</summary>
+                                <pre style="margin-top: 10px;">${authToken}</pre>
+                            </details>
+                        </div>
+                    `;
+
+                    // Enable get results button
+                    document.getElementById('getResultsBtn').disabled = false;
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="result-box error">
+                            <h3>❌ Login Gagal</h3>
+                            <p>${data.message || 'Unknown error'}</p>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="result-box error">
+                        <h3>❌ Error</h3>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            } finally {
+                loginBtn.disabled = false;
+                loginBtn.innerHTML = 'Login sebagai Mussa';
+            }
+        }
+
+        async function getLabResults() {
+            const btn = document.getElementById('getResultsBtn');
+            const resultDiv = document.getElementById('resultsOutput');
+
+            if (!authToken) {
+                alert('Silakan login terlebih dahulu');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading"></span> Loading...';
+            resultDiv.innerHTML = '';
+
+            try {
+                const response = await fetch('http://localhost:3001/api/lab-results/my-results', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    if (data.length === 0) {
+                        resultDiv.innerHTML = `
+                            <div class="result-box warning">
+                                <h3>⚠️ Tidak Ada Hasil Lab</h3>
+                                <p>Belum ada hasil lab untuk pasien ini</p>
+                            </div>
+                        `;
+                    } else {
+                        let resultsHTML = `
+                            <div class="result-box success">
+                                <h3>✅ Hasil Lab Ditemukan (${data.length} hasil)</h3>
+                            </div>
+                        `;
+
+                        data.forEach((result, index) => {
+                            const hasilClass = result.hasilIVA === 'POSITIF' ? 'positive' : 'negative';
+                            const hasilIcon = result.hasilIVA === 'POSITIF' ? '⚠️' : '✅';
+
+                            resultsHTML += `
+                                <div class="lab-result-card">
+                                    <div class="lab-header">
+                                        <h3>📋 Hasil Lab #${index + 1}</h3>
+                                        <p style="color: #666;">Pasien: ${result.pendaftaran?.nama || 'N/A'} (NIK: ${result.pendaftaran?.nik || 'N/A'})</p>
+                                    </div>
+                                    
+                                    <div style="text-align: center; margin: 30px 0; padding: 30px; background: ${result.hasilIVA === 'POSITIF' ? '#fff3cd' : '#d4edda'}; border-radius: 12px;">
+                                        <h2 style="color: ${result.hasilIVA === 'POSITIF' ? '#856404' : '#155724'}; font-size: 2.5em; margin: 0;">
+                                            ${hasilIcon} ${result.hasilIVA}
+                                        </h2>
+                                        <p style="color: #666; margin-top: 10px;">Hasil IVA Test</p>
+                                    </div>
+                                    
+                                    <div class="result-grid">
+                                        <div class="result-item">
+                                            <label>Tanggal Pemeriksaan</label>
+                                            <div class="value">${new Date(result.tanggalPemeriksaan).toLocaleDateString('id-ID')}</div>
+                                        </div>
+                                        <div class="result-item">
+                                            <label>Kelurahan</label>
+                                            <div class="value">${result.pendaftaran?.kelurahan || 'N/A'}</div>
+                                        </div>
+                                        <div class="result-item">
+                                            <label>Alamat</label>
+                                            <div class="value">${result.pendaftaran?.alamat || 'N/A'}</div>
+                                        </div>
+                                    </div>
+                                    
+                                    ${result.tindakLanjut ? `
+                                        <div style="margin-top: 20px; padding: 20px; background: #e7f3ff; border-left: 4px solid #2196F3; border-radius: 8px;">
+                                            <strong style="color: #1976D2; display: block; margin-bottom: 10px;">🏥 Tindak Lanjut:</strong>
+                                            <p style="color: #333; margin: 0;">${result.tindakLanjut}</p>
+                                        </div>
+                                    ` : ''}
+                                    
+                                    ${result.keterangan ? `
+                                        <div style="margin-top: 15px; padding: 20px; background: #f5f5f5; border-radius: 8px;">
+                                            <strong style="color: #666; display: block; margin-bottom: 10px;">📝 Keterangan:</strong>
+                                            <p style="color: #333; margin: 0;">${result.keterangan}</p>
+                                        </div>
+                                    ` : ''}
+                                    
+                                    <details style="margin-top: 20px;">
+                                        <summary style="cursor: pointer; color: #667eea; font-weight: 600;">🔍 Lihat Data JSON Lengkap</summary>
+                                        <pre style="margin-top: 10px;">${JSON.stringify(result, null, 2)}</pre>
+                                    </details>
+                                </div>
+                            `;
+                        });
+
+                        resultDiv.innerHTML = resultsHTML;
+                    }
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="result-box error">
+                            <h3>❌ Gagal Mengambil Hasil Lab</h3>
+                            <p>${data.message || 'Unknown error'}</p>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="result-box error">
+                        <h3>❌ Error</h3>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Ambil Hasil Lab';
+            }
+        }
+    </script>
+</body>
+
+</html>

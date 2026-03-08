@@ -115,6 +115,85 @@ async function main() {
         console.log('   ⚠️  Sample patient already exists');
     }
 
+    // ========================================
+    // SEED PATIENT MUSSA WITH LAB RESULTS
+    // ========================================
+    console.log('\n👥 Creating Patient Mussa...');
+
+    const mussaNIK = '3374012505950002';
+    const mussaPassword = '25051995'; // Dari tanggal lahir: 25-05-1995
+
+    const existingMussa = await prisma.user.findUnique({
+        where: { nik: mussaNIK }
+    });
+
+    let mussaUser;
+    if (!existingMussa) {
+        const hashedMussaPassword = await bcrypt.hash(mussaPassword, 10);
+
+        mussaUser = await prisma.user.create({
+            data: {
+                nik: mussaNIK,
+                email: 'mussa@example.com',
+                password: hashedMussaPassword,
+                name: 'Mussa',
+                birthDate: new Date('1995-05-25'),
+                phoneNumber: '08123456788',
+                role: 'PATIENT'
+            }
+        });
+
+        console.log('   ✅ Patient Mussa created!');
+        console.log('   NIK:', mussaNIK);
+        console.log('   Password:', mussaPassword);
+
+        // Create registration for Mussa
+        console.log('\n📋 Creating Registration for Mussa...');
+
+        const mussaRegistration = await prisma.pendaftaran.create({
+            data: {
+                userId: mussaUser.id,
+                nik: mussaNIK,
+                nama: 'Mussa',
+                tanggalLahir: new Date('1995-05-25'),
+                alamat: 'Jl. Pemuda No. 45, Kelurahan Gabahan',
+                kelurahan: 'Gabahan',
+                kecamatan: 'Semarang Timur',
+                noTelepon: '08123456788',
+                instansi: 'Swasta',
+                tidakHaid: true,
+                tidakDouching: true,
+                tidakBerhubungan: true,
+                tidakHamil: true,
+                status: 'COMPLETED',
+                sudahDatang: true,
+                tanggalDaftar: new Date('2026-01-20'),
+                tanggalDatang: new Date('2026-01-22')
+            }
+        });
+
+        console.log('   ✅ Registration for Mussa created!');
+
+        // Create lab results for Mussa
+        console.log('\n🔬 Creating Lab Results for Mussa...');
+
+        await prisma.hasilLab.create({
+            data: {
+                pendaftaranId: mussaRegistration.id,
+                hasilIVA: 'POSITIF',
+                tindakLanjut: 'Rujuk ke RSUD untuk pemeriksaan lanjutan',
+                keterangan: 'Ditemukan lesi pada serviks, perlu tindakan medis segera',
+                tanggalPemeriksaan: new Date('2026-01-22')
+            }
+        });
+
+        console.log('   ✅ Lab results for Mussa created!');
+        console.log('   Hasil IVA: POSITIF');
+        console.log('   Tindak Lanjut: Rujuk ke RSUD');
+    } else {
+        console.log('   ⚠️  Patient Mussa already exists');
+    }
+
     console.log('\n✅ Seeding completed successfully!\n');
 }
 

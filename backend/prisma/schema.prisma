@@ -116,11 +116,14 @@ model HasilLab {
 
   // Hasil IVA
   hasilIVA        HasilIVA    @default(NEGATIF)
+  tindakLanjut    String?     @db.Text
+  keterangan      String?     @db.Text
 
   // Hasil DNA HPV (sub-section)
   jenisSpesimen       String?
   noSpesimen          String?
   tanggalPengambilan  DateTime?
+  tanggalPemeriksaan  DateTime?
   
   // Sub Type Results
   subType16       HasilDNAHPV?
