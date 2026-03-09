@@ -6,7 +6,7 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Middleware
-const allowedOrigins = ['http://localhost:5173', 'http://127.0.0.1:5173', 'http://sefila-frontend:80', 'http://143.14.13.3:5174'];
+const allowedOrigins = ['http://localhost:5173', 'http://127.0.0.1:5173', 'http://sefila-frontend:80', 'https://sefila.puskesmasbugangan.my.id'];
 
 const corsOptions = {
   origin: function (origin, callback) {
