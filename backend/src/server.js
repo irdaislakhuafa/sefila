@@ -63,7 +63,8 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`========================================`);
   console.log(`🚀 SEFILA Server running on port ${PORT}`);
-  console.log(`   API: http://localhost:${PORT}/api`);
+  // console.log(`   API: http://localhost:${PORT}/api`);
+  console.log(`   API: http://sefila-be.puskesmasbugangan.my.id/api`);
   console.log(`   CORS allowed origins: ${allowedOrigins.join(", ")}`);
   console.log(`========================================`);
   console.log(`Server is ready to accept requests`);
